@@ -1,0 +1,5 @@
+Which keyword is used to skip current iteration ?
+Python is successor of which language ?
+Which module is used for game development ?
+Which module is used get random numbers ?
+Which file mode is wrong ?
