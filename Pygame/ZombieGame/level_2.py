@@ -21,7 +21,7 @@ for i in range(4):
     zombie_list.append(pygame.image.load("assets/zombie_{}.png".format(i+1)))
 
 gun_aim = pygame.image.load("assets/aim_pointer.png")
-user_gun = pygame.image.load("assets/gun_2.png")
+user_gun = pygame.image.load("assets/gun_1.png")
 spark = pygame.image.load("assets/fire_spark.png")
 
 def gameOver():
@@ -55,6 +55,11 @@ def game():
     zombie_x = random.randint(0, width - zombie_image.get_width())
     zombie_y = random.randint(0, height - zombie_image.get_height())
 
+    countShots = 0
+
+    zombieScaleX = 130
+    zombieScaleY = 180
+
     seconds = 15
     pygame.time.set_timer(USEREVENT, 1000)
 
@@ -67,15 +72,23 @@ def game():
 
             elif event.type == USEREVENT:
                 seconds -= 1
-                # print(seconds)
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 gun_shot.play()
                 gun_spark(pos_x)
                 if zombie_rect.colliderect(aim_rect):
-                    zombie_image = random.choice(zombie_list)
-                    zombie_x = random.randint(0, width - zombie_image.get_width())
-                    zombie_y = random.randint(0, height - zombie_image.get_height())
+                    countShots += 1
+                    zombieScaleX -= 10
+                    zombieScaleY -= 10
+                    zombie_image = pygame.transform.scale(zombie_image, (zombieScaleX, zombieScaleY))
+                    # zombie_image = pygame.transform.rotate(zombie_image, 45)
+                    if countShots == 3:
+                        zombie_image = random.choice(zombie_list)
+                        zombie_x = random.randint(0, width - zombie_image.get_width())
+                        zombie_y = random.randint(0, height - zombie_image.get_height())
+                        countShots = 0
+                        zombieScaleX = 100
+                        zombieScaleY = 150
 
         pos_x, pos_y = pygame.mouse.get_pos()
 
